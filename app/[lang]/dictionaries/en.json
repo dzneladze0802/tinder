@@ -1,6 +1,7 @@
 {
   "common": {
-    "submit": "Submit"
+    "submit": "Submit",
+    "signOut": "Sign out"
   },
   "login": {
     "email": "Email",

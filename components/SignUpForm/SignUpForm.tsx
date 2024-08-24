@@ -1,7 +1,13 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Box, Button, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -13,7 +19,7 @@ import { CreateUserSchema, createUserSchema } from "./schema";
 export const SignUpForm: React.FC<IWithDictionary> = ({ dictionary }) => {
   const {
     control,
-    formState: { errors },
+    formState: { errors, isLoading, isSubmitting },
     register,
     handleSubmit,
     setError,
@@ -21,6 +27,8 @@ export const SignUpForm: React.FC<IWithDictionary> = ({ dictionary }) => {
     resolver: zodResolver(createUserSchema),
   });
   const router = useRouter();
+
+  const isWaiting = isLoading || isSubmitting;
 
   const submit = async (input: CreateUserSchema) => {
     try {
@@ -76,6 +84,7 @@ export const SignUpForm: React.FC<IWithDictionary> = ({ dictionary }) => {
             label={dictionary.signUp.firstName}
             error={!!errors[SignUpEnum.FIRST_NAME]}
             helperText={errors[SignUpEnum.FIRST_NAME]?.message}
+            disabled={isWaiting}
             {...register(SignUpEnum.FIRST_NAME)}
           />
           <TextField
@@ -83,6 +92,7 @@ export const SignUpForm: React.FC<IWithDictionary> = ({ dictionary }) => {
             id={SignUpEnum.LAST_NAME}
             label={dictionary.signUp.lastName}
             error={!!errors[SignUpEnum.LAST_NAME]}
+            disabled={isWaiting}
             {...register(SignUpEnum.LAST_NAME)}
           />
         </Box>
@@ -91,6 +101,7 @@ export const SignUpForm: React.FC<IWithDictionary> = ({ dictionary }) => {
           label={dictionary.signUp.email}
           error={!!errors[SignUpEnum.EMAIL]}
           helperText={errors[SignUpEnum.EMAIL]?.message}
+          disabled={isWaiting}
           type="email"
           {...register(SignUpEnum.EMAIL)}
         />
@@ -107,9 +118,14 @@ export const SignUpForm: React.FC<IWithDictionary> = ({ dictionary }) => {
             label={dictionary.signUp.age}
             error={!!errors[SignUpEnum.AGE]}
             helperText={errors[SignUpEnum.AGE]?.message}
+            disabled={isWaiting}
             {...register(SignUpEnum.AGE)}
           />
-          <SelectGender label={dictionary.signUp.gender} control={control} />
+          <SelectGender
+            label={dictionary.signUp.gender}
+            control={control}
+            isDisabled={isWaiting}
+          />
         </Box>
         <TextField
           id={SignUpEnum.PASSWORD}
@@ -117,6 +133,7 @@ export const SignUpForm: React.FC<IWithDictionary> = ({ dictionary }) => {
           error={!!errors[SignUpEnum.PASSWORD]}
           helperText={errors[SignUpEnum.PASSWORD]?.message}
           type="password"
+          disabled={isWaiting}
           {...register(SignUpEnum.PASSWORD)}
         />
         <TextField
@@ -125,10 +142,15 @@ export const SignUpForm: React.FC<IWithDictionary> = ({ dictionary }) => {
           error={!!errors[SignUpEnum.REPEAT_PASSWORD]}
           helperText={errors[SignUpEnum.REPEAT_PASSWORD]?.message}
           type="password"
+          disabled={isWaiting}
           {...register(SignUpEnum.REPEAT_PASSWORD)}
         />
-        <Button type="submit" variant="contained">
-          {dictionary.signUp.signUp}
+        <Button type="submit" variant="contained" disabled={isWaiting}>
+          {isWaiting ? (
+            <CircularProgress size={25} />
+          ) : (
+            dictionary.signUp.signUp
+          )}
         </Button>
         {!!errors?.root && (
           <Typography color="tomato" style={{ alignSelf: "center" }}>

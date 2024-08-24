@@ -14,6 +14,7 @@ export enum SignUpEnum {
 export interface ISelectGenderProps {
   control: Control<CreateUserSchema, any>;
   label: string;
+  isDisabled: boolean;
 }
 
 export enum GenderEnum {

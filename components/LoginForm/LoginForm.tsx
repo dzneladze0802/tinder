@@ -1,7 +1,13 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Box, Button, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -11,8 +17,7 @@ import { CreateLoginSchema, createLoginSchema } from "./schema";
 
 export const LoginForm: React.FC<IWithDictionary> = ({ dictionary }) => {
   const {
-    control,
-    formState: { errors },
+    formState: { errors, isLoading, isSubmitting },
     register,
     handleSubmit,
     setError,
@@ -20,6 +25,8 @@ export const LoginForm: React.FC<IWithDictionary> = ({ dictionary }) => {
     resolver: zodResolver(createLoginSchema),
   });
   const router = useRouter();
+
+  const isWaiting = isLoading || isSubmitting;
 
   const submit = async (input: CreateLoginSchema) => {
     try {
@@ -67,6 +74,7 @@ export const LoginForm: React.FC<IWithDictionary> = ({ dictionary }) => {
           label={dictionary.login.email}
           error={!!errors[LoginEnum.EMAIL]}
           helperText={errors[LoginEnum.EMAIL]?.message}
+          disabled={isWaiting}
           type="email"
           {...register(LoginEnum.EMAIL)}
         />
@@ -76,12 +84,13 @@ export const LoginForm: React.FC<IWithDictionary> = ({ dictionary }) => {
           label={dictionary.login.password}
           error={!!errors[LoginEnum.PASSWORD]}
           helperText={errors[LoginEnum.PASSWORD]?.message}
+          disabled={isWaiting}
           type="password"
           {...register(LoginEnum.PASSWORD)}
         />
 
-        <Button type="submit" variant="contained">
-          {dictionary.login.login}
+        <Button type="submit" variant="contained" disabled={isWaiting}>
+          {isWaiting ? <CircularProgress size={25} /> : dictionary.login.login}
         </Button>
         {!!errors?.root && (
           <Typography color="tomato" style={{ alignSelf: "center" }}>

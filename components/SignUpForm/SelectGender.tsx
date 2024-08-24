@@ -12,6 +12,7 @@ import { GenderEnum, ISelectGenderProps, SignUpEnum } from "./types";
 export const SelectGender: React.FC<ISelectGenderProps> = ({
   control,
   label,
+  isDisabled,
 }) => (
   <Controller
     name={SignUpEnum.GENDER}
@@ -26,6 +27,7 @@ export const SelectGender: React.FC<ISelectGenderProps> = ({
           value={value ?? ""}
           label={label}
           onChange={onChange}
+          disabled={isDisabled}
         >
           <MenuItem value={GenderEnum.MALE}>{GenderEnum.MALE}</MenuItem>
           <MenuItem value={GenderEnum.FEMALE}>{GenderEnum.FEMALE}</MenuItem>

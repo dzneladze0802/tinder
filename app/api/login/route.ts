@@ -15,7 +15,10 @@ export async function POST(request: Request) {
     const dataFromApi = await responseFromApi.json();
 
     if (dataFromApi.accessToken) {
-      cookies().set("access_token", dataFromApi?.accessToken);
+      cookies().set("access_token", dataFromApi?.accessToken, {
+        secure: process.env.NODE_ENV === "production",
+        httpOnly: true,
+      });
 
       return new Response(
         JSON.stringify({
