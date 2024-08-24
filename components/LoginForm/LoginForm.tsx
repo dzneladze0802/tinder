@@ -42,7 +42,7 @@ export const LoginForm: React.FC<IWithDictionary> = ({ dictionary }) => {
         await response.json();
 
       if (data?.statusCode === 200) {
-        router.push("/profile");
+        router.push("/en/profile");
       } else {
         setError("root", { message: data?.message });
       }

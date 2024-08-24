@@ -1,3 +1,4 @@
+import { ACCESS_TOKEN } from "@/constants";
 import { cookies } from "next/headers";
 
 export async function POST(request: Request) {
@@ -15,7 +16,7 @@ export async function POST(request: Request) {
     const dataFromApi = await responseFromApi.json();
 
     if (dataFromApi.accessToken) {
-      cookies().set("access_token", dataFromApi?.accessToken, {
+      cookies().set(ACCESS_TOKEN, dataFromApi?.accessToken, {
         secure: process.env.NODE_ENV === "production",
         httpOnly: true,
       });
