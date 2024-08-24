@@ -9,19 +9,22 @@ import { Controller } from "react-hook-form";
 
 import { GenderEnum, ISelectGenderProps, SignUpEnum } from "./types";
 
-export const SelectGender: React.FC<ISelectGenderProps> = ({ control }) => (
+export const SelectGender: React.FC<ISelectGenderProps> = ({
+  control,
+  label,
+}) => (
   <Controller
     name={SignUpEnum.GENDER}
     control={control}
     render={({ field: { onChange, value }, fieldState: { error } }) => (
       <FormControl fullWidth error={!!error}>
-        <InputLabel id={SignUpEnum.GENDER}>{SignUpEnum.GENDER}</InputLabel>
+        <InputLabel id={SignUpEnum.GENDER}>{label}</InputLabel>
         <Select
           fullWidth
           labelId={SignUpEnum.GENDER}
           id={SignUpEnum.GENDER}
           value={value ?? ""}
-          label={SignUpEnum.GENDER}
+          label={label}
           onChange={onChange}
         >
           <MenuItem value={GenderEnum.MALE}>{GenderEnum.MALE}</MenuItem>

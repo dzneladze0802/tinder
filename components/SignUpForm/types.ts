@@ -11,12 +11,9 @@ export enum SignUpEnum {
   REPEAT_PASSWORD = "repeatPassword",
 }
 
-export type SignUpInputsType = {
-  [key in SignUpEnum]: string;
-};
-
 export interface ISelectGenderProps {
   control: Control<CreateUserSchema, any>;
+  label: string;
 }
 
 export enum GenderEnum {

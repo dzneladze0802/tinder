@@ -1,0 +1,14 @@
+{
+  "common": {
+    "submit": "Submit"
+  },
+  "sign-up": {
+    "email": "Email",
+    "age": "Age",
+    "gender": "Gender",
+    "password": "Password",
+    "repeatPassword": "Repeat Password",
+    "firstName": "First Name",
+    "lastName": "Last Name"
+  }
+}

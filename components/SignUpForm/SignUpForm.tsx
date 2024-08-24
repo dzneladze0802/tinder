@@ -1,24 +1,19 @@
 "use client";
 
-import {
-  Box,
-  Button,
-  FormHelperText,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import { Box, Button, TextField, Typography } from "@mui/material";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+import type { IWithDictionary } from "@/types";
 import { SelectGender } from "./SelectGender";
-import { SignUpEnum, SignUpInputsType } from "./types";
+import { SignUpEnum } from "./types";
 import { CreateUserSchema, createUserSchema } from "./schema";
 
-export const SignUpForm: React.FC = () => {
+export const SignUpForm: React.FC<IWithDictionary> = ({ dictionary }) => {
   const {
     control,
-    formState: { errors, isDirty, isValid },
+    formState: { errors },
     register,
     handleSubmit,
     setError,
@@ -51,88 +46,99 @@ export const SignUpForm: React.FC = () => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(submit)}
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        width: "100%",
-        gap: "1rem",
-      }}
+    <Box
+      width="100%"
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
     >
       <Box
-        component="div"
+        component="form"
+        onSubmit={handleSubmit(submit)}
         display="flex"
+        flexDirection="column"
+        marginTop="8rem"
+        padding="1rem"
+        maxWidth="40rem"
         width="100%"
-        justifyContent="space-between"
-        gap={2}
+        gap="1rem"
       >
+        <Box
+          component="div"
+          display="flex"
+          width="100%"
+          justifyContent="space-between"
+          gap={2}
+        >
+          <TextField
+            fullWidth
+            id={SignUpEnum.FIRST_NAME}
+            label={dictionary["sign-up"].firstName}
+            error={!!errors[SignUpEnum.FIRST_NAME]}
+            helperText={errors[SignUpEnum.FIRST_NAME]?.message}
+            {...register(SignUpEnum.FIRST_NAME)}
+          />
+          <TextField
+            fullWidth
+            id={SignUpEnum.LAST_NAME}
+            label={dictionary["sign-up"].lastName}
+            error={!!errors[SignUpEnum.LAST_NAME]}
+            {...register(SignUpEnum.LAST_NAME)}
+          />
+        </Box>
         <TextField
-          fullWidth
-          id={SignUpEnum.FIRST_NAME}
-          label={SignUpEnum.FIRST_NAME}
-          error={!!errors[SignUpEnum.FIRST_NAME]}
-          helperText={errors[SignUpEnum.FIRST_NAME]?.message}
-          {...register(SignUpEnum.FIRST_NAME)}
+          id={SignUpEnum.EMAIL}
+          label={dictionary["sign-up"].email}
+          error={!!errors[SignUpEnum.EMAIL]}
+          helperText={errors[SignUpEnum.EMAIL]?.message}
+          type="email"
+          {...register(SignUpEnum.EMAIL)}
+        />
+        <Box
+          component="div"
+          display="flex"
+          width="100%"
+          justifyContent="space-between"
+          gap={2}
+        >
+          <TextField
+            fullWidth
+            id={SignUpEnum.AGE}
+            label={dictionary["sign-up"].age}
+            error={!!errors[SignUpEnum.AGE]}
+            helperText={errors[SignUpEnum.AGE]?.message}
+            {...register(SignUpEnum.AGE)}
+          />
+          <SelectGender
+            label={dictionary["sign-up"].gender}
+            control={control}
+          />
+        </Box>
+        <TextField
+          id={SignUpEnum.PASSWORD}
+          label={dictionary["sign-up"].password}
+          error={!!errors[SignUpEnum.PASSWORD]}
+          helperText={errors[SignUpEnum.PASSWORD]?.message}
+          type="password"
+          {...register(SignUpEnum.PASSWORD)}
         />
         <TextField
-          fullWidth
-          id={SignUpEnum.LAST_NAME}
-          label={SignUpEnum.LAST_NAME}
-          error={!!errors[SignUpEnum.LAST_NAME]}
-          helperText={errors[SignUpEnum.LAST_NAME]?.message}
-          {...register(SignUpEnum.LAST_NAME)}
+          id={SignUpEnum.REPEAT_PASSWORD}
+          label={dictionary["sign-up"].repeatPassword}
+          error={!!errors[SignUpEnum.REPEAT_PASSWORD]}
+          helperText={errors[SignUpEnum.REPEAT_PASSWORD]?.message}
+          type="password"
+          {...register(SignUpEnum.REPEAT_PASSWORD)}
         />
+        <Button type="submit" variant="contained">
+          {dictionary["common"].submit}
+        </Button>
+        {!!errors?.root && (
+          <Typography color="tomato" style={{ alignSelf: "center" }}>
+            {errors?.root.message}
+          </Typography>
+        )}
       </Box>
-      <TextField
-        id={SignUpEnum.EMAIL}
-        label={SignUpEnum.EMAIL}
-        error={!!errors[SignUpEnum.EMAIL]}
-        helperText={errors[SignUpEnum.EMAIL]?.message}
-        type="email"
-        {...register(SignUpEnum.EMAIL)}
-      />
-      <Box
-        component="div"
-        display="flex"
-        width="100%"
-        justifyContent="space-between"
-        gap={2}
-      >
-        <TextField
-          fullWidth
-          id={SignUpEnum.AGE}
-          label={SignUpEnum.AGE}
-          error={!!errors[SignUpEnum.AGE]}
-          helperText={errors[SignUpEnum.AGE]?.message}
-          {...register(SignUpEnum.AGE)}
-        />
-        <SelectGender control={control} />
-      </Box>
-      <TextField
-        id={SignUpEnum.PASSWORD}
-        label={SignUpEnum.PASSWORD}
-        error={!!errors[SignUpEnum.PASSWORD]}
-        helperText={errors[SignUpEnum.PASSWORD]?.message}
-        type="password"
-        {...register(SignUpEnum.PASSWORD)}
-      />
-      <TextField
-        id={SignUpEnum.REPEAT_PASSWORD}
-        label={SignUpEnum.REPEAT_PASSWORD}
-        error={!!errors[SignUpEnum.REPEAT_PASSWORD]}
-        helperText={errors[SignUpEnum.REPEAT_PASSWORD]?.message}
-        type="password"
-        {...register(SignUpEnum.REPEAT_PASSWORD)}
-      />
-      <Button type="submit" variant="contained">
-        Submit
-      </Button>
-      {!!errors?.root && (
-        <Typography color="tomato" style={{ alignSelf: "center" }}>
-          {errors?.root.message}
-        </Typography>
-      )}
-    </form>
+    </Box>
   );
 };
