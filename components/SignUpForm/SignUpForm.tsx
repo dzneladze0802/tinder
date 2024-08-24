@@ -36,7 +36,7 @@ export const SignUpForm: React.FC<IWithDictionary> = ({ dictionary }) => {
         await response.json();
 
       if (data?.statusCode === 201) {
-        router.push("/profile");
+        router.push("/");
       } else {
         setError("root", { message: data?.message });
       }
@@ -73,7 +73,7 @@ export const SignUpForm: React.FC<IWithDictionary> = ({ dictionary }) => {
           <TextField
             fullWidth
             id={SignUpEnum.FIRST_NAME}
-            label={dictionary["sign-up"].firstName}
+            label={dictionary.signUp.firstName}
             error={!!errors[SignUpEnum.FIRST_NAME]}
             helperText={errors[SignUpEnum.FIRST_NAME]?.message}
             {...register(SignUpEnum.FIRST_NAME)}
@@ -81,14 +81,14 @@ export const SignUpForm: React.FC<IWithDictionary> = ({ dictionary }) => {
           <TextField
             fullWidth
             id={SignUpEnum.LAST_NAME}
-            label={dictionary["sign-up"].lastName}
+            label={dictionary.signUp.lastName}
             error={!!errors[SignUpEnum.LAST_NAME]}
             {...register(SignUpEnum.LAST_NAME)}
           />
         </Box>
         <TextField
           id={SignUpEnum.EMAIL}
-          label={dictionary["sign-up"].email}
+          label={dictionary.signUp.email}
           error={!!errors[SignUpEnum.EMAIL]}
           helperText={errors[SignUpEnum.EMAIL]?.message}
           type="email"
@@ -104,19 +104,16 @@ export const SignUpForm: React.FC<IWithDictionary> = ({ dictionary }) => {
           <TextField
             fullWidth
             id={SignUpEnum.AGE}
-            label={dictionary["sign-up"].age}
+            label={dictionary.signUp.age}
             error={!!errors[SignUpEnum.AGE]}
             helperText={errors[SignUpEnum.AGE]?.message}
             {...register(SignUpEnum.AGE)}
           />
-          <SelectGender
-            label={dictionary["sign-up"].gender}
-            control={control}
-          />
+          <SelectGender label={dictionary.signUp.gender} control={control} />
         </Box>
         <TextField
           id={SignUpEnum.PASSWORD}
-          label={dictionary["sign-up"].password}
+          label={dictionary.signUp.password}
           error={!!errors[SignUpEnum.PASSWORD]}
           helperText={errors[SignUpEnum.PASSWORD]?.message}
           type="password"
@@ -124,14 +121,14 @@ export const SignUpForm: React.FC<IWithDictionary> = ({ dictionary }) => {
         />
         <TextField
           id={SignUpEnum.REPEAT_PASSWORD}
-          label={dictionary["sign-up"].repeatPassword}
+          label={dictionary.signUp.repeatPassword}
           error={!!errors[SignUpEnum.REPEAT_PASSWORD]}
           helperText={errors[SignUpEnum.REPEAT_PASSWORD]?.message}
           type="password"
           {...register(SignUpEnum.REPEAT_PASSWORD)}
         />
         <Button type="submit" variant="contained">
-          {dictionary["common"].submit}
+          {dictionary.signUp.signUp}
         </Button>
         {!!errors?.root && (
           <Typography color="tomato" style={{ alignSelf: "center" }}>

@@ -2,7 +2,13 @@
   "common": {
     "submit": "Submit"
   },
-  "sign-up": {
+  "login": {
+    "email": "Email",
+    "password": "Password",
+    "login": "Login"
+  },
+  "signUp": {
+    "signUp": "Sign Up",
     "email": "Email",
     "age": "Age",
     "gender": "Gender",
